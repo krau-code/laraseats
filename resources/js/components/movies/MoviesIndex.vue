@@ -1,0 +1,190 @@
+<template>
+    <title>Movies | LaraSeats Admin</title>
+
+    <!-- Container -->
+    <div class="bg-white px-6 py-4 drop-shadow-lg text-gray-900">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-3xl font-bold text-gray-800">Manage movies</h1>
+            <router-link :to="{ name: 'movies.create' }" class="bg-blue-600 text-white px-3 py-2 hover:bg-blue-500">Add movie </router-link>
+        </div>
+
+        <!-- Error Message -->
+        <div v-if="error" class="w-full bg-red-100 border border-red-400 text-red-400 text-sm px-6 py-2 mt-2 mb-4">
+            <p >{{ error }}</p>
+        </div>
+
+        <!-- Table -->
+        <div v-if="movies.length > 0" class="overflow-x-scroll">
+            <table class=" text-sm text-left table-auto border-collapse border w-full">
+                <thead class="bt-2">
+                    <tr class="bg-white border-b-4 border-gray-200">
+                        <th class="border px-2 py-2">No.</th>
+                        <th class="border px-2 py-2">Poster</th>
+                        <th class="border px-2 py-2">Title</th>
+                        <th class="border px-2 py-2">Description</th>
+                        <th class="border px-2 py-2">Rating</th>
+                        <th class="border px-2 py-2">Genre</th>
+                        <th class="border px-2 py-2">Duration</th>
+                        <th class="border px-2 py-2">Showing Date</th>
+                        <th class="border px-2 py-2">End Data</th>
+                        <th class="border px-2 py-2">Status</th>
+                        <th class="border px-2 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(movie, index) in movies" :key="movie.id" :class="{'bg-white': index % 2 === 1,'bg-gray-100': index % 2 === 0 }">
+                        <td class="border px-2 py-2">{{ index + 1 }}</td>
+                        <td class="border px-2 py-2">
+                            <img :src="movie.poster ? `/storage/`+movie.poster : `/images/no-image.jpg`" :alt="movie.title" class="w-12 mx-auto" />
+                        </td>
+                        <td class="border px-2 py-2 capitalize">{{ movie.title }}</td> 
+                        <td class="border px-2 py-2 uppercase">{{ truncateText(movie.description) }}</td>
+                        <td class="border px-2 py-2 uppercase">{{ movie.rating }}</td>
+                        <td class="border px-2 py-2 lowercase">{{ movie.genre }}</td>
+                        <td class="border px-2 py-2">
+                            {{ movie.hour + " " + getHour(movie.hour) }}
+                            {{ movie.minute + " " + getMinute(movie.minute) }}
+                        
+                        </td>
+                        <td class="border px-2 py-2">{{ movie.showing_date   }}</td>
+                        <td class="border px-2 py-2">{{ movie.end_date }}</td>
+                        <td class="border px-2 py-2">
+                            <span class="px-2 py-1 text-white text-xs rounded-full whitespace-nowrap" :class="getStatus(movie.showing_date,movie.end_date) == 'ended' ? 'bg-red-600' : 'bg-green-600'">{{ getStatus(movie.showing_date,movie.end_date) }}</span>
+                        </td>
+                        <td class="border px-2 py-2">
+                            <div class="flex gap-x-1">
+                                <!-- Show Button -->
+                                <router-link :to="{ name: 'movies.show', params: { id: movie.id } }" class="bg-gray-700 px-2 py-1 text-white hover:bg-gray-600 whitespace-nowrap">
+                                    Show details
+                                </router-link>
+
+                                <!-- Edit Button -->
+                                <router-link :to="{ name: 'movies.edit', params: { id: movie.id } }" class="bg-blue-700 px-2 py-1 text-white hover:bg-blue-600">
+                                    Edit
+                                </router-link>
+
+                                <!-- Delete Button -->
+                                <button @click="deleteMovie(movie.id)" class="bg-red-700 px-2 py-1 text-white hover:bg-red-600">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Loading -->
+        <div v-else>
+            <h1 class="text-center">No data available</h1>
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+    data() {
+        return {
+            movies: [],
+            current_date: '',
+            error: '',
+        }
+    },
+    methods: {
+        truncateText(text) {
+            if (text.length > 15) {
+                let truncatedText = text.substring(0, 15);
+
+                return `${truncatedText}...`;
+            } else {
+                return text;
+            }
+        },
+        getHour(hour) {
+            if (hour > 1) {
+                return "hrs";
+            } else {
+                return "hr";
+            }
+        },
+        getMinute(minute) {
+            if (minute > 1) {
+                return "mins";
+            } else {
+                return "min";
+            }
+        },
+        getStatus(showing_date,end_date) {
+            let date1 = new Date(showing_date);
+            let date2 = new Date(end_date);
+            let date3 = new Date(this.currentDate);
+
+            if (date3 >= date1 && date3 <= date2) {
+                return "showing";
+            } else if (date3 < date1) {
+                return "coming soon";
+            } else {
+                return "ended"
+            }
+        },
+        async deleteMovie(id) {
+            if (!window.confirm('Are you sure?')) {
+                return
+            }
+
+            // Delete movie
+           await axios.delete('/admin/movies/' + id)
+            .then(response => {
+                console.log(response.data);
+            }).catch(error => {
+                console.log(error.response.data);
+                this.error = error.response.data.message;
+            });
+
+            // Get movies again
+            await axios.get('/admin/movies')
+            .then(response => {
+                this.movies = response.data;
+            }).catch(error => {
+                console.log(error.response.data);
+            });
+        }
+    },
+    async mounted() {
+        await axios.get('/admin/movies')
+        .then(response => {
+            this.movies = response.data;
+        }).catch(error => {
+            console.log(error.response.data);
+            this.error = error.response.data.message;
+        });
+
+        // Formattin number to '00'
+        // var number = document.getElementById('number').innerHTML;
+        // var formatter = new Intl.NumberFormat('en-US', {
+        //     minimumIntegerDigits: 2,
+        //     minimumFractionDigits: 0,
+        //     maximumFractionDigits: 0
+        // });
+        // var formattedNumber = formatter.format(number);
+        // document.getElementById('number').innerHTML = formattedNumber;
+    },
+    computed: {
+        currentDate() {
+            // Getting current date
+            const date = new Date();
+
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+
+            // This arrangement can be altered based on how we want the date's format to appear.
+            this.current_date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`; // "YYYY-MM-DD"
+
+            return this.current_date;
+        },
+    }
+}
+</script>
