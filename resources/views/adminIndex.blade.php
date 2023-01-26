@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
-    <link rel="icon" href="{{ asset('icons/laraseats-admin-favicon.ico') }}">
+    <link rel="icon" href="{{ asset('favicon/laraseats-admin-favicon.ico') }}">
 
     {{-- Scripts --}}
     @vite([

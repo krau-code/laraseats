@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
-    <link rel="icon" href="{{ asset('icons/laraseats-favicon.ico') }}">
+    <link rel="icon" href="{{ asset('favicon/laraseats-favicon.ico') }}">
 
     {{-- Font Awesome --}}
     <link
