@@ -10,7 +10,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/css/pageMenu.css',
-                'resources/js/menu.js'
+                'resources/js/menu.js',
+                'resources/css/adminMenu.css'
             ],
             refresh: true,
         }),
