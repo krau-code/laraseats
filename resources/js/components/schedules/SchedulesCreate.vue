@@ -94,7 +94,7 @@ export default {
     methods: {
         async getDates() {
             // Get single movie data
-            await axios.get('/admin/movies/' + this.movie_id)
+            await axios.get('/admin/movies/data/' + this.movie_id)
             .then(response => {
                 console.log(response.data);
                 this.movie = response.data;
