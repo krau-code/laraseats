@@ -15,7 +15,7 @@
             <div class="mb-4">
                 <label for="title" class="text-gray-900">Title</label>
                 <div class="mt-2">
-                    <input id="title" type="text" v-model="title" ref="focusThis" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2" required/>
+                    <input id="title" type="text" v-model="title" ref="focusThis" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2 capitalize" required/>
                 </div>
             </div>
 
@@ -200,7 +200,7 @@ export default {
         }
     },
     async created() {
-        await axios.get('/admin/movies/'+this.id+'/edit')
+        await axios.get('/admin/movies/data/'+this.id+'/edit')
         .then(response => {
             this.movie = response.data;
         }).catch(error => {

@@ -23,7 +23,7 @@
             <div class="mb-4 grow">
                 <label class="text-gray-500">Movie</label>
                 <div class="mt-2">
-                    <input id="showing_date" type="text" v-model="title" class="w-full border border-gray-300 text-gray-500 focus:outline-none px-3 py-2 cursor-not-allowed bg-gray-100" disabled required/>
+                    <input id="showing_date" type="text" v-model="title" class="w-full border border-gray-300 text-gray-500 focus:outline-none px-3 py-2 cursor-not-allowed bg-gray-100 capitalize" disabled required/>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
             <div class="mb-4 grow">
                 <label for="name" class="text-gray-900">Name</label>
                 <div class="mt-2">
-                    <input id="name" type="text" ref="focusThis" v-model="name" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2" required/>
+                    <input id="name" type="text" ref="focusThis" v-model="name" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2 uppercase" required/>
                 </div>
             </div>
 
@@ -148,7 +148,7 @@ export default {
         this.$refs.focusThis.focus();
 
         // Get reservation for editing
-        await axios.get('/admin/reservations/'+this.id + '/edit')
+        await axios.get('/admin/reservations/data/'+this.id + '/edit')
         .then(response => {
             console.log(response.data);
             this.reservation = response.data;

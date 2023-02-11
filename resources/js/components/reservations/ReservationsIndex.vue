@@ -34,7 +34,7 @@
                 <tbody>
                     <tr v-for="(reservation, index) in reservations" :key="reservation.id" :class="{'bg-white': index % 2 === 1,'bg-gray-100': index % 2 === 0 }">
                         <td class="border px-2 py-2">{{ index + 1 }}</td>
-                        <td class="border px-2 py-2 capitalize">{{ reservation.name }}</td>
+                        <td class="border px-2 py-2 uppercase">{{ reservation.name }}</td>
                         <td class="border px-2 py-2">{{ reservation.email }}</td>
                         <!-- Schedule Date -->
                         <td v-if="reservation.date" class="border px-2 py-2 capitalize">
@@ -145,36 +145,39 @@ export default {
                 this.error = error.response.data;
             });
 
-            this.seat_left = this.schedule.seat_left;
-            // Plus quantity plus seat_left
-            this.new_seat_left = quantity + this.seat_left;
-
             // Delete reservation
             await axios.delete('/admin/reservations/' + id)
             .then(response => {
                 console.log(response.data);
 
-                // Make form data
-                const updateSeat = new FormData();
-                updateSeat.append('seat_left', this.new_seat_left);
-                updateSeat.append('_method', 'PUT');
+                // Check if schedule is existing
+                if (this.schedule) {
+                    this.seat_left = this.schedule.seat_left;
+                    // Plus quantity plus seat_left
+                    this.new_seat_left = quantity + this.seat_left;
 
-                // Update seat_left data in schedule table
-                axios.post('/admin/schedules/updateSeat/' + schedule_id, updateSeat)
-                .then(response => {
-                    console.log(response.data);
-                }).catch(error => {
-                    console.log(error);
-                    console.log(error.response.data.message);
-                    this.error = error.response.data.message;
-                });
+                    // Make form data
+                    const updateSeat = new FormData();
+                    updateSeat.append('seat_left', this.new_seat_left);
+                    updateSeat.append('_method', 'PUT');
+
+                    // Update seat_left data in schedule table
+                    axios.post('/admin/schedules/updateSeat/' + schedule_id, updateSeat)
+                    .then(response => {
+                        console.log(response.data);
+                    }).catch(error => {
+                        console.log(error);
+                        console.log(error.response.data.message);
+                        this.error = error.response.data.message;
+                    });
+                }
             }).catch(error => {
                 console.log(error.response.data);
                 this.error = error.response.data.message;
             });
 
             // Get reservations again
-            await axios.get('/admin/reservations')
+            await axios.get('/admin/reservations/data')
             .then(response => {
                 console.log(response.data);
                 this.reservations = response.data;
@@ -186,7 +189,7 @@ export default {
     },
     async mounted() {
         // Get all formatted schedules
-        await axios.get('/admin/reservations')
+        await axios.get('/admin/reservations/data')
         .then(response => {
             console.log(response.data);
             this.reservations = response.data;

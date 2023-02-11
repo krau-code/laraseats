@@ -49,7 +49,7 @@
             <div class="mb-4 grow">
                 <label for="name" class="text-gray-900">Name</label>
                 <div class="mt-2">
-                    <input id="name" type="text" v-model="name" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2" required/>
+                    <input id="name" type="text" v-model="name" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2 uppercase" required/>
                 </div>
             </div>
 

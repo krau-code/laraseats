@@ -16,7 +16,7 @@
                 <div class="mb-4 grow">
                     <label for="title" class="text-gray-900">Cinema Name</label>
                     <div class="mt-2">
-                        <input id="title" type="text" v-model="cinema_name" ref="focusThis" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2" required/>
+                        <input id="title" type="text" v-model="cinema_name" ref="focusThis" class="w-full border border-gray-300 text-gray-800 focus:outline-none px-3 py-2 capitalize" required/>
                     </div>
                 </div>
 

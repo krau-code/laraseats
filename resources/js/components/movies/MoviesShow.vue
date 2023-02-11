@@ -84,7 +84,7 @@ export default {
         },
     },
     async mounted() {
-        await axios.get('/admin/movies/' + this.id)
+        await axios.get('/admin/movies/data/' + this.id)
         .then(response => {
             console.log(response.data);
             this.movie = response.data;

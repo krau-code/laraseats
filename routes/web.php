@@ -81,7 +81,7 @@ Route::get('/admin', [AdminController::class, 'adminIndex'])
 // MOVIES
 
 // Show all movies
-Route::get('/admin/movies', [MovieController::class, 'index'])
+Route::get('/admin/movies/data', [MovieController::class, 'index'])
     ->name('moviesIndex')
     ->middleware('auth');
 
@@ -96,7 +96,7 @@ Route::post('/admin/movies/create', [MovieController::class, 'store'])
     ->middleware('auth');
 
 // Show movie update form
-Route::get('/admin/movies/{movie}/edit', [MovieController::class, 'edit'])
+Route::get('/admin/movies/data/{movie}/edit', [MovieController::class, 'edit'])
     ->name('moviesEdit')
     ->middleware('auth');
 
@@ -111,7 +111,7 @@ Route::delete('/admin/movies/{movie}', [MovieController::class, 'destroy'])
     ->middleware('auth');
 
 // Show single movie
-Route::get('/admin/movies/{movie}', [MovieController::class, 'show'])
+Route::get('/admin/movies/data/{movie}', [MovieController::class, 'show'])
     ->name('schedulesShow')
     ->middleware('auth');
 
@@ -119,7 +119,7 @@ Route::get('/admin/movies/{movie}', [MovieController::class, 'show'])
 // CINEMAS
 
 // Show all cinemas
-Route::get('/admin/cinemas', [CinemaController::class, 'index'])
+Route::get('/admin/cinemas/data', [CinemaController::class, 'index'])
     ->name('cinemasIndex')
     ->middleware('auth');
 
@@ -134,7 +134,7 @@ Route::post('/admin/cinemas/create', [CinemaController::class, 'store'])
     ->middleware('auth');
 
 // Show cinema update form
-Route::get('/admin/cinemas/{cinema}/edit', [CinemaController::class, 'edit'])
+Route::get('/admin/cinemas/data/{cinema}/edit', [CinemaController::class, 'edit'])
     ->name('cinemasEdit')
     ->middleware('auth');
 
@@ -157,7 +157,7 @@ Route::get('/admin/cinemas/{cinemas}', [CinemaController::class, 'show'])
 // SCHEDULES
 
 // Show formatted schedules
-Route::get('/admin/schedules', [ScheduleController::class, 'indexDisplay'])
+Route::get('/admin/schedules/data', [ScheduleController::class, 'indexDisplay'])
     ->name('schedulesIndexDisplay')
     ->middleware('auth');
 
@@ -187,7 +187,7 @@ Route::post('/admin/schedules/create', [ScheduleController::class, 'store'])
     ->middleware('auth');
 
 // Show schedule update form
-Route::get('/admin/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])
+Route::get('/admin/schedules/data/{schedule}/edit', [ScheduleController::class, 'edit'])
     ->name('schedulesEdit')
     ->middleware('auth');
 
@@ -215,7 +215,7 @@ Route::get('/admin/schedules/{schedule}', [ScheduleController::class, 'show'])
 // RESERVATION
 
 // Show formatted resrvations
-Route::get('/admin/reservations', [ReservationController::class, 'indexDisplay'])
+Route::get('/admin/reservations/data', [ReservationController::class, 'indexDisplay'])
     ->name('reservationsIndexDisplay')
     ->middleware('auth');
 
@@ -230,26 +230,28 @@ Route::post('/admin/reservations/create', [ReservationController::class, 'store'
     ->middleware('auth');
 
 // Show resrvations update form
-Route::get('/admin/reservations/{reservation}/edit', [ReservationController::class, 'edit'])
+Route::get('/admin/reservations/data/{reservation}/edit', [ReservationController::class, 'edit'])
     ->name('reservationsEdit')
     ->middleware('auth');
 
-// Update resrvations data
+// Update reservations data
 Route::put('/admin/reservations/{reservation}', [ReservationController::class, 'update'])
     ->name('reservationsUpdate')
     ->middleware('auth');
 
-// Delete resrvations data
+// Delete reservations data
 Route::delete('/admin/reservations/{reservation}', [ReservationController::class, 'destroy'])
     ->name('reservationsDelete')
     ->middleware('auth');
 
 // --------------------------------------------------
 
-// Anything than above for pages
-Route::view('/{any}', 'index');
-
 // Anything than above for admin
 Route::view('/admin/{any}', 'adminIndex')
     ->middleware('auth')
     ->where('any', '.*');
+
+// Anything than above for pages
+Route::view('/{any}', 'index')
+    ->where('any', '.*');
+

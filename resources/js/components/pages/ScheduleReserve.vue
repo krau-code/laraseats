@@ -39,7 +39,7 @@
                 <div class="mb-4 grow">
                     <label class="text-white">Amount</label>
                     <div class="mt-2">
-                        <input type="number" ref="amount" v-model="amount" class="w-full border border-gray-300 text-white focus:outline-none px-3 py-2 cursor-not-allowed" disabled required/>
+                        <input type="number" ref="amount" v-model="amount" class="w-full border border-gray-300 text-white focus:outline-none px-3 py-2 cursor-not-allowed capitalize" disabled required/>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             <div class="mb-4 grow">
                 <label for="name" class="text-white">Name</label>
                 <div class="mt-2">
-                    <input id="name" type="text" v-model="name" class="w-full border border-gray-300 text-slate-900 focus:outline-none px-3 py-2 capitalize" required/>
+                    <input id="name" type="text" v-model="name" class="w-full border border-gray-300 text-slate-900 focus:outline-none px-3 py-2 uppercase" required/>
                 </div>
             </div>
 

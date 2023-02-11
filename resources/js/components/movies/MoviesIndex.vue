@@ -144,7 +144,7 @@ export default {
             });
 
             // Get movies again
-            await axios.get('/admin/movies')
+            await axios.get('/admin/movies/data')
             .then(response => {
                 this.movies = response.data;
             }).catch(error => {
@@ -153,7 +153,7 @@ export default {
         }
     },
     async mounted() {
-        await axios.get('/admin/movies')
+        await axios.get('/admin/movies/data')
         .then(response => {
             this.movies = response.data;
         }).catch(error => {

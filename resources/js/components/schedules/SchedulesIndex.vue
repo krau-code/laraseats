@@ -164,7 +164,7 @@ export default {
             });
 
             // Get movies again
-            await axios.get('/admin/schedules')
+            await axios.get('/admin/schedules/data')
             .then(response => {
                 this.schedules = response.data;
                 console.log(response.data);
@@ -175,7 +175,7 @@ export default {
     },
     async mounted() {
         // Get all schedules
-        await axios.get('/admin/schedules')
+        await axios.get('/admin/schedules/data')
         .then(response => {
             this.schedules = response.data;
             console.log(response.data);

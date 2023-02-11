@@ -158,7 +158,7 @@ export default {
     },
     async mounted() {
         // Get data for editing
-        await axios.get('/admin/schedules/'+this.id+'/edit')
+        await axios.get('/admin/schedules/data/'+this.id+'/edit')
         .then(response => {
             this.schedule = response.data;
         }).catch(error => {
@@ -173,7 +173,7 @@ export default {
         this.seat_left = this.schedule.seat_left;
 
         // Get all movie
-        await axios.get('/admin/movies/' + this.movie_id)
+        await axios.get('/admin/movies/data/' + this.movie_id)
         .then(response => {
             console.log(response.data);
             this.movie = response.data;
